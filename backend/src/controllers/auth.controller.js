@@ -15,7 +15,7 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'Ya existe un usuario con este correo' });
     }
 
-    const nombreFoto = req.body.nombreFoto || 'noFoto.png';
+    const nombreFoto = req.body.nombreFoto || null;
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
     const usuario = new Usuario({
@@ -24,7 +24,7 @@ export const register = async (req, res) => {
       correo,
       telefono,
       edad,
-      foto: nombreFoto,
+      foto: nombreFoto || null,
       password: passwordHash
     });
 
@@ -107,9 +107,7 @@ export const getUsu = async (req, res) => { // Obtener todos los usuarios
     const usuarios = await Usuario.find();
     const usuariosConFoto = usuarios.map(usuario => ({
       ...usuario._doc,
-      foto: usuario.foto
-        ? `http://localhost:3333/img/${usuario.foto}`
-        : `http://localhost:3333/img/noFoto.png`, // Imagen por defecto si no hay foto
+      foto: usuario.foto ? `http://localhost:3333/img/${usuario.foto}` : null, // Imagen por defecto si no hay foto
     }));
     res.json(usuariosConFoto);
   } catch (error) {
@@ -153,7 +151,8 @@ export const deleteUsu = async (req, res) => { // Eliminar un usuario
 export const updateUsu = async (req, res) => {
   try {
     const { nombre, apellido, correo, telefono, edad, password } = req.body;
-    const foto = req.file ? req.body.nombreFoto : undefined; // Captura la foto si existe
+    const foto = req.body.nombreFoto ? req.body.nombreFoto : null;
+; // Captura la foto si existe
 
     // Buscar el usuario actual para obtener la foto antigua
     const usuarioActual = await Usuario.findById(req.params.id);
@@ -178,20 +177,18 @@ export const updateUsu = async (req, res) => {
     }
 
     // Encuentra y actualiza el usuario, incluyendo la contraseña cifrada si se cambió
-    const usuario = await Usuario.findByIdAndUpdate(
-      req.params.id,
-      { 
-        nombre, 
-        apellido, 
-        correo, 
-        telefono, 
-        edad, 
-        password: updatedPassword, // Solo actualizar la contraseña si se envió una nueva
-        ...(foto && { foto }) // Solo actualizar la foto si se envió una nueva
-      }, 
-      { new: true }
-    );
-
+    const updateFields = {
+      nombre,
+      apellido,
+      correo,
+      telefono,
+      edad,
+      password: updatedPassword, // Se mantiene la contraseña actual si no se cambió
+      ...(foto !== null ? { foto } : {}) // Agrega 'foto' solo si existe
+    };
+    
+    const usuario = await Usuario.findByIdAndUpdate(req.params.id, updateFields, { new: true });
+    
     res.json({ message: 'Usuario actualizado', usuario });
   } catch (error) {
     res.status(500).json({ message: 'Error al actualizar el usuario', error: error.message });

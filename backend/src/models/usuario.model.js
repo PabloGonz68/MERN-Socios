@@ -21,7 +21,8 @@ const usuarioSchema = new mongoose.Schema({
       trim: true    
     },
     foto: { 
-        type: String 
+        type: String,
+        default: null
     }, // Campo para almacenar la ruta de la imagen
     password: {
         type: String,
