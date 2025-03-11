@@ -42,24 +42,28 @@ const Register = () => {
     }
 
     try {
-      await axios.post('https://mern-socios.vercel.app/mern2/register', formData, {
+      const response = await axios.post('https://mern-socios.vercel.app/mern2/register', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json'
         }
       });
 
+      console.log("Registro exitoso:", response.data);
       setUsuario({ ...valorInicial });
       setFoto(null);
       navigate('/login');
     } catch (error) {
-      if (error.response && error.response.data) {
-        // Mostrar un mensaje de error si el usuario ya existe
+      if (error.response) {
+        console.error("Error en el servidor:", error.response.data);
         setError(error.response.data.message || "Error desconocido");
       } else {
+        console.error("Error al conectar con el servidor:", error);
         setError("Error al conectar con el servidor");
       }
     }
   };
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
