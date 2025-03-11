@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  
+
   const [credentials, setCredentials] = useState({
     correo: "",
     password: ""
@@ -21,7 +21,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://mern-socios.vercel.app/mern2/login', credentials);
+      const response = await axios.post(
+        'https://mern-socios.vercel.app/mern2/login',
+        credentials,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
       navigate("/home"); // Redirige al home después de iniciar sesión
     } catch (error) {
       if (error.response && error.response.data) {
@@ -37,7 +45,7 @@ const Login = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
-        
+
         {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>} {/* Mostrar el mensaje de error */}
 
         <form onSubmit={handleSubmit}>
@@ -73,7 +81,7 @@ const Login = () => {
           </button>
         </form>
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">¿Aún no estás registrado? <button 
+          <p className="text-sm text-gray-600">¿Aún no estás registrado? <button
             className="text-blue-600 hover:underline"
             onClick={() => navigate("/register")}>
             Crear cuenta
