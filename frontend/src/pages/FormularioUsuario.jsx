@@ -62,12 +62,12 @@ const FormularioUsuario = () => {
     try {
       if (id) {
         // Si hay un ID, estamos editando
-        await axios.put(`http://localhost:3333/mern2/usuario/${id}`, formData, {
+        await axios.put(`https://mern-socios.vercel.app/mern2/usuario/${id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
         // Si no hay un ID, estamos creando un nuevo usuario
-        await axios.post('http://localhost:3333/mern2/register', formData, {
+        await axios.post('https://mern-socios.vercel.app/mern2/register', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }

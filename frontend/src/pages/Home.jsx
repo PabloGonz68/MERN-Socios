@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     const getUsuarios = async () => {
       try {
-        const res = await axios.get("http://localhost:3333/mern2/usuarios");
+        const res = await axios.get("https://mern-socios.vercel.app/mern2/usuarios");
         setUsuarios(res.data);
       } catch (error) {
         console.error("Error al obtener usuarios", error);
@@ -20,7 +20,7 @@ const Home = () => {
 
   const eliminarUsuario = async (id) => {
     try {
-      await axios.delete(`http://localhost:3333/mern2/usuario/${id}`);
+      await axios.delete(`https://mern-socios.vercel.app/mern2/usuario/${id}`);
       setUsuarios(usuarios.filter((usuario) => usuario._id !== id));
     } catch (error) {
       console.error("Error al eliminar el usuario", error);

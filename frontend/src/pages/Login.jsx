@@ -21,7 +21,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3333/mern2/login', credentials);
+      const response = await axios.post('https://mern-socios.vercel.app/mern2/login', credentials);
       navigate("/home"); // Redirige al home después de iniciar sesión
     } catch (error) {
       if (error.response && error.response.data) {

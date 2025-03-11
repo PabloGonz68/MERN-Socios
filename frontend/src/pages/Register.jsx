@@ -42,7 +42,7 @@ const Register = () => {
     }
 
     try {
-      await axios.post('http://localhost:3333/mern2/register', formData, {
+      await axios.post('https://mern-socios.vercel.app/mern2/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -164,12 +164,12 @@ const Register = () => {
           </button>
         </form>
         <div className="mt-4 text-center">
-  <p className="text-sm text-gray-600">¿Ya tienes cuenta? <button 
-    className="text-blue-600 hover:underline"
-    onClick={() => navigate("/login")}>
-    Iniciar sesión
-  </button></p>
-</div>
+          <p className="text-sm text-gray-600">¿Ya tienes cuenta? <button
+            className="text-blue-600 hover:underline"
+            onClick={() => navigate("/login")}>
+            Iniciar sesión
+          </button></p>
+        </div>
 
       </div>
     </div>
