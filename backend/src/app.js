@@ -14,7 +14,9 @@ import authRoutes from './routes/auth.routes.js';
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:4444',  // El puerto del frontend
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   }));
 app.use(morgan('dev'));
 app.use(express.json());
